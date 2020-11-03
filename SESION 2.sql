@@ -139,3 +139,64 @@ FROM orderdetails
 GROUP BY orderNumber
 ORDER BY Total DESC;
 
+#Dentro de la tabla orders obten el número de órdenes por año.
+
+DESCRIBE orders;
+
+SELECT YEAR (orderDate), count(*) 
+FROM orders
+GROUP BY YEAR (orderDate);
+
+#Obten el apellido y nombre de los empleados cuya oficina está ubicada en USA
+
+SELECT*
+FROM employees;
+
+SELECT lastName, firstName
+FROM employees
+WHERE officeCode IN
+	(SELECT officeCode
+     FROM offices
+     WHERE country="USA");
+     
+#Obten el número de cliente, número de cheque y cantidad del cliente que ha 
+# realizado el pago más alto.
+
+SELECT customerNumber, checkNumber, amount
+FROM payments
+WHERE amount=
+	(SELECT max(amount) FROM payments);
+
+#Obten el número de cliente, número de cheque y cantidad de aquellos clientes 
+# cuyo pago es más alto que el promedio.
+
+SELECT customerNumber, checkNumber, amount
+FROM payments
+WHERE amount>
+	(SELECT avg(amount) FROM payments);
+    
+#Obten el nombre de aquellos clientes que no han hecho ninguna orden.
+
+SELECT*
+FROM orders;
+
+SELECT customerName
+FROM customers
+WHERE customerNumber NOT IN 
+	(SELECT customerNumber 
+     FROM orders);
+     
+#Obten el máximo, mínimo y promedio del número de productos en las órdenes de venta.
+
+SELECT max(quantityOrdered), min(quantityOrdered), avg(quantityOrdered)
+FROM orderdetails;
+
+#Dentro de la tabla orders, obten el número de órdenes que hay por cada estado.
+
+SELECT*
+FROM customers;
+        
+SELECT customers.state, count(orders.orderNumber) AS numberoforders FROM orders
+LEFT JOIN customers ON orders.customerNumber=customers.customerNumber
+GROUP BY state;
+
