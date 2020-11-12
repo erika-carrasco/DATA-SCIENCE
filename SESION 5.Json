@@ -1,0 +1,115 @@
+################### SESIÓN 5 #####################
+
+################### EJEMPLO ########################
+{
+ filter: {
+  'address.country_code': 'ES',
+  'review_scores.review_scores_rating': {
+   $gte: 50
+  },
+  $and: [
+   {
+    amenities: {
+     $in: [
+      'Wifi',
+      'Internet'
+     ]
+    }
+   },
+   {
+    amenities: {
+     $in: [
+      'Elevator'
+     ]
+    }
+   }
+  ],
+  price: {
+   $lte: 100
+  }
+ }
+}
+
+############### RETO 1 ##########################
+
+#Propiedades que no permitan fiestas.
+
+{
+ filter: {
+  house_rules: RegExp('No Parties', i)
+ }
+}
+
+#Propiedades que admitan mascotas.
+
+{
+ filter: {
+  house_rules: RegExp('^Pets allowed', i)
+ }
+}
+
+#Propiedades que no permitan fumadores.
+
+{
+ filter: {
+  house_rules: RegExp('No Smoking allowed', i)
+ }
+}
+
+#Propiedades que no permitan fiestas ni fumadores.
+
+{
+ filter: {
+  house_rules: RegExp('No smoking allowed|No parties', i)
+ }
+}
+
+##################### RETO 2 #########################
+
+#Todas las publicaciones que tengan 50 o más comentarios, que la valoración
+sea mayor o igual a 80, que cuenten con conexión a Internet vía cable y estén ubicada en Brazil.
+
+{"review_scores.review_scores_rating": {$gte:80},"address.country": "Brazil", number_of_reviews: {$gte:50}, amenities:{$in: [/Ethernet/i]}}
+
+{
+ filter: {
+  'review_scores.review_scores_rating': {
+   $gte: 80
+  },
+  'address.country': 'Brazil',
+  number_of_reviews: {
+   $gte: 50
+  },
+  amenities: {
+   $in: [
+    RegExp('Ethernet', i)
+   ]
+  }
+ }
+}
+
+################### RETO 3 ##########################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
