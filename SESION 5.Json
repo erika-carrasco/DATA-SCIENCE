@@ -93,16 +93,10 @@ sea mayor o igual a 80, que cuenten con conexión a Internet vía cable y estén
 #Usando la colección sample_airbnb.listingsAndReviews, mediante el uso de
 #agregaciones, encontrar el número de publicaciones que tienen conexión a Internet, sea desde Wifi o desde cable (Ethernet).
 
-{
- filter: {
-  amenities: {
-   $in: [
-    RegExp('Ethernet', i),
-    RegExp('Wifi', i)
-   ]
-  }
- }
-}
+[{$match: {
+  amenities: {$in: ["Ethernet","Wifi"]}
+}}, {$count: 'no publicaciones'}]
+
 
 
 
