@@ -1,0 +1,61 @@
+################################# SESION 6 ######################################
+
+##################### RETO 1 ####################################################
+
+#Con base en el ejemplo 1, modifica el agrupamiento para que muestre el costo promedio por habitación por país de las propiedades de tipo casa.
+
+[{$match: {
+  property_type: "House"
+}}, {$match: {
+  bedrooms: {$gte: 1}
+}}, {$addFields: {
+  precio_por_habitacion:{
+    $divide: ["$price","$bedrooms"]
+  }
+}}, {$group: {
+  _id:"$address.country" ,
+  precio_total: {
+    $sum: "$precio_por_habitacion"
+  },
+  recamaras:{
+    $sum:1
+  }
+}}, {$addFields: {
+  precio_promedio_por_habitacion:{
+    $divide: ["$precio_total","$recamaras"]
+  }
+}}, {$project: {
+  _id:1,
+  precio_promedio_por_habitacion:1
+}}]
+
+##################### RETO 2 ####################################################
+
+#Usando las colecciones comments y users, se requiere conocer el correo y contraseña de cada persona que realizó un comentario.
+#Construye un pipeline que genere como resultado estos datos.
+
+[{$lookup: {
+  from: 'users',
+  localField: 'name',
+  foreignField: 'name',
+  as: 'user'
+}}, {$addFields: {
+  user_object:{
+    $arrayElemAt: ["$user",0]
+  }
+}}, {$addFields: {
+  user_mail: "$user_object.email",
+  user_password: "$user_object.name"
+}}, {$project: {
+  _id:0,
+  name:1,
+  user_mail:1,
+  user_password:1
+}}]
+
+
+##################### EJERCICIOS ####################################################
+
+
+
+
